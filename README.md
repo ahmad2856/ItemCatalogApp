@@ -41,10 +41,16 @@ https://github.com/ahmad2856/ItemCatalogApp.git
  
 3- Create a new user named grader and give hem permission to sudo 
 
-    a. sudo adduser grader
-    b. vim /etc/sudoers
-    c. touch /etc/sudoers.d/grader
-    d. vim /etc/sudoers.d/grader, type in grader ALL=(ALL:ALL) ALL, save and quit
+    a. While logged in as ubuntu, add user: sudo adduser grader. 
+    b. Enter a password and i filled the information for this new user.
+    c.Give grader the permission to sudo
+    d.i Edit the sudoers file: sudo visudo.
+	e.and by adding a new line to give sudo privileges to grader user. 
+	     root    ALL=(ALL:ALL) ALL
+         grader  ALL=(ALL:ALL) ALL
+	f.then i Save and exit using CTRL+X and confirm with Y.
+
+ 
 
 4-Set SSH login using the keys
    a.generate keys on local machine usingssh-keygen  then save the private key in ~/.ssh on the local machine
@@ -100,30 +106,10 @@ https://github.com/ahmad2856/ItemCatalogApp.git
   3-Restart Apache sudo service apache2 restart
   4-sudo ufw allow 'Apache Full'
   
-10.Install and configure the PostgreSQL by using the below instructions: 
-
-   a.Install PostgreSQL using: sudo apt-get install postgresql
-
-   b.Check if no remote connections are allowed sudo vim /etc/postgresql/9.3/main/pg_hba.conf
-
-   c.Login as user "postgres" sudo su - postgres
-
-   d.Get into postgreSQL shell psql
-   e.Create a new database named catalog and create a new user named catalog in postgreSQL shell
-      1.postgres=# CREATE DATABASE catalog;
-      2.postgres=# CREATE USER catalog;
  
-   f.Set a password for user catalog
-      postgres=# ALTER ROLE catalog with the password ;
-
-   g.Give user "catalog" permission to "catalog" application database
-    postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog TO catalog;
-
-   h.Quit postgreSQL 
-    postgres=# \q  then exit. 
 
 
-11.installing git and clone and setup the ItemCatalogApp            
+10.installing git and clone and setup the ItemCatalogApp            
 
     a. Install Git using sudo apt-get install git
     b. Use cd /var/www to move to the /var/www directory
@@ -141,7 +127,7 @@ https://github.com/ahmad2856/ItemCatalogApp.git
 
 
 
-12.Configure and Enabling a New Virtual Host
+11.Configure and Enabling a New Virtual Host
  a.Create ItemCatalogApp.conf to edit: sudo nano /etc/apache2/sites-available/ItemCatalogApp.conf.
  b.Add the following lines of code to the file to configure the virtual host.
 
@@ -165,7 +151,7 @@ https://github.com/ahmad2856/ItemCatalogApp.git
 
  3-Enable the virtual host with the following command: sudo a2ensite ItemCatalogApp
 
- 13.Create the .wsgi File
+ 12.Create the .wsgi File
    1-Create the .wsgi File under /var/www/ItemCatalogApp/ItemCatalogApp:
        1.cd /var/www/ItemCatalogApp/ItemCatalogApp
        2.sudo nano ItemCatalogApp.wsgi
@@ -176,14 +162,14 @@ https://github.com/ahmad2856/ItemCatalogApp.git
     import sys
     import logging
     logging.basicConfig(stream=sys.stderr)
-    sys.path.insert(0,"/var/www/ItemCatalogApp/ItemCatalogApp")
+     sys.path.insert(0,"/var/www/ItemCatalogApp/ItemCatalogApp")
 
     from ItemCatalogApp import app as application
 	application.root_path = '/var/www/ItemCatalogApp/ItemCatalogApp'
 	application.secret_key = 7uJB826hk2ltUZmdsYbsGHiN
 
 
-   14.Restart Apache and run the ItemCatalogApp
+   13.Restart Apache and run the ItemCatalogApp
     a. sudo service apache2 restart
 
 
